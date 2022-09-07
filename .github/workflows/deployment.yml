@@ -1,0 +1,36 @@
+name: Daily Deployment for SEA
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  remove-old-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove old artifacts
+        uses: c-hive/gha-remove-artifacts@v1
+        with:
+          age: '1 week'
+
+  create-pull-request-to-dev-merged: #Create PR from atedu-dev -> atedu-dev-merged
+    runs-on: ubuntu-latest
+    if: success()
+    needs: [remove-old-artifacts]
+    env:
+      CI: false
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+        with: { ref: master }
+
+      - name: create a pull request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          branch: 'master'
+          base: main
+          title: 'Auto PR for schedule deployment'
+          reviewers: octocat
+          assignees: octocat
+          body: This is a scheduled auto PR creation
+          token: ${{ secrets.ATEDU_AUTOMATION_NONPROD  }}   
