@@ -33,4 +33,4 @@ jobs:
           reviewers: octocat
           assignees: octocat
           body: This is a scheduled auto PR creation
-          token: ${{ secrets.ATEDU_AUTOMATION_NONPROD  }}   
+          token: ${{ secrets.ACCESS_TOKEN  }}   
