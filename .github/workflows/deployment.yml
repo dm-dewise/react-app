@@ -17,8 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     if: success()
     needs: [remove-old-artifacts]
-    env:
-      CI: false
     steps:
       - name: checkout code
         uses: actions/checkout@v2
@@ -43,7 +41,7 @@ jobs:
           body: This is an auto-generated PR with fixes by autopep8.
           labels: autopep8, automated pr
           branch: ${{ steps.vars.outputs.branch-name }}
-      - name: Fail if autopep8 made changes
+      - name: fail if autopep8 made changes
         if: steps.autopep8.outputs.exit-code == 2
         run: exit 1
 
