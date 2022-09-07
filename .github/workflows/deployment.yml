@@ -22,12 +22,12 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v2
-        with: { ref: master }
+        with: { ref: dev }
 
       - name: create a pull request
         uses: peter-evans/create-pull-request@v4
         with:
-          branch: 'master'
+          branch: 'dev'
           base: main
           title: 'Auto PR for schedule deployment'
           reviewers: octocat
