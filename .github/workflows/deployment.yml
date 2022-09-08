@@ -3,7 +3,9 @@ name: Daily Deployment for SEA
 on:
   schedule:
     - cron: '*/5 * * * *'
-
+    
+  workflow_dispatch:
+  
 jobs:
   remove-old-artifacts:
     runs-on: ubuntu-latest
