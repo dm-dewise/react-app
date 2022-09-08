@@ -37,8 +37,8 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
-          branch: 'dev'
-          base: main
+          #branch: 'dev'
+          base: dev
           title: 'Auto PR for schedule deployment'
           reviewers: octocat
           assignees: octocat
