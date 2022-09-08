@@ -37,13 +37,14 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
-          #branch: 'dev'
-          base: dev
+          branch: 'auto-pr'
+          base: main
           title: 'Auto PR for schedule deployment'
           reviewers: octocat
           assignees: octocat
           body: This is a scheduled auto PR creation
           token: ${{ secrets.GITHUB_TOKEN  }}  
+          delete-branch: true
           
       - name: check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}
