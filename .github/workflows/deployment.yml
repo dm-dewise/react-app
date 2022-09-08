@@ -33,7 +33,7 @@ jobs:
           reviewers: octocat
           assignees: octocat
           body: This is a scheduled auto PR creation
-          token: ${{ secrets.ACCESS_TOKEN  }}  
+          token: ${{ secrets.GITHUB_TOKEN  }}  
           
       - name: check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}
