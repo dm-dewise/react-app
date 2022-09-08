@@ -30,7 +30,7 @@ jobs:
         uses: rlespinasse/git-commit-data-action@v1.x
         
       - name: update author name
-        run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR
+        run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > author
         
       - name: create pull request        
         uses: peter-evans/create-pull-request@v3        
@@ -42,4 +42,4 @@ jobs:
           body:
             This is to show authomatic PR Creation
           token: ${{secrets.GITHUB_TOKEN}}
-          delete-branch: false
+          delete-branch: true
