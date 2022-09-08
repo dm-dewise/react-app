@@ -42,4 +42,4 @@ jobs:
           body:
             This is to show authomatic PR Creation
           token: ${{secrets.ACCESS_TOKEN}}
-          delete_branch: false
+          delete-branch: false
