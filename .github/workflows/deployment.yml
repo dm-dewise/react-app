@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '*/5 * * * *'
     
-  workflow_dispatch:
+  workflow_dispatch:  
   
 jobs:
   remove-old-artifacts:
@@ -17,6 +17,8 @@ jobs:
 
   create-pull-request-to-dev-merged: #Create PR from atedu-dev -> atedu-dev-merged
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{secrets.ACCESS_TOKEN}}
     if: success()
     needs: [remove-old-artifacts]
     steps:
@@ -32,4 +34,3 @@ jobs:
           pr_body: "👑 *An automated PR*"
           pr_reviewer: octocat
           pr_draft: true
-          github_token: ${{ secrets.ACCESS_TOKEN }}
