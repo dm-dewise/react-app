@@ -1,11 +1,8 @@
 name: Daily Deployment for SEA
 
 on:
-  #schedule:
-  #  - cron: '*/5 * * * *'
-    
-  workflow_dispatch:  
-  
+  workflow_dispatch:	
+
 jobs:
   remove-old-artifacts:
     runs-on: ubuntu-latest
@@ -15,28 +12,31 @@ jobs:
         with:
           age: '1 week'
 
-  create-pr-to-dev-merged: #Create PR from atedu-dev -> atedu-dev-merged
+  create-pull-request-to-dev-merged: #Create PR from atedu-dev -> atedu-dev-merged
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{secrets.ACCESS_TOKEN}}
     if: success()
     needs: [remove-old-artifacts]
+    env:
+      CI: false
     steps:
       - name: checkout code
         uses: actions/checkout@v2
         with: { ref: dev }
-        
-      - name: extract git commit data
-        uses: rlespinasse/git-commit-data-action@v1.x        
-         
-      - name: create pull request        
-        uses: peter-evans/create-pull-request@v3        
+
+      - name: create a pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
         with:
-          branch: "auto-pr-branch"
+          branch: 'dev'
           base: main
-          committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
-          author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
-          body:
-            This is to show authomatic PR Creation
-          token: ${{secrets.GITHUB_TOKEN}}
-          delete-branch: true
+          title: 'Auto PR for schedule deployment'
+          reviewers: octocat
+          assignees: octocat
+          body: This is a scheduled auto PR creation
+          token: ${{ secrets.GITHUB_TOKEN  }}  
+          
+      - name: check outputs
+        if: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
