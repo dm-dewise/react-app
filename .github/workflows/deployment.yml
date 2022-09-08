@@ -32,4 +32,4 @@ jobs:
           pr_body: "👑 *An automated PR*"
           pr_reviewer: octocat
           pr_draft: true
-          token: ${{ secrets.ACCESS_TOKEN }}
+          github_token: ${{ secrets.ACCESS_TOKEN }}
